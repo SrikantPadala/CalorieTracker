@@ -1,11 +1,12 @@
 plugins {
     id("com.android.application")
-    kotlin("android")
+    id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
 }
 
 android {
+    namespace = "com.plcoding.calorytracker"
     compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
@@ -22,28 +23,25 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        named("release") {
             isMinifyEnabled = false
         }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     composeOptions {
         kotlinCompilerExtensionVersion = Compose.composeCompilerVersion
     }
-    packagingOptions {
-        exclude("META-INF/AL2.0")
-        exclude("META-INF/LGPL2.1")
-        exclude("**/attach_hotspot_windows.dll")
-        exclude("META-INF/licenses/ASM")
+    packaging {
+        resources.excludes.add("META-INF/*")
     }
 }
 
